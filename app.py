@@ -4,6 +4,7 @@ import pandas as pd
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 import base64
+import joblib
 
 # Page config
 st.set_page_config(page_title="Heart Disease Predictor", page_icon="❤️", layout="wide")
@@ -117,6 +118,7 @@ set_bg_image()
 # Load and train model
 @st.cache_resource
 def load_model():
+    model = joblib.load('model.pkl')
     heart_data = pd.read_csv('heart_disease_data.csv')
     x = heart_data.drop(columns='target', axis=1)
     y = heart_data['target']
