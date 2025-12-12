@@ -188,3 +188,28 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+import streamlit as st
+import base64
+
+# Function to set background from a local file
+def set_bg_local(image_file):
+    with open(image_file, "rb") as f:
+        encoded = base64.b64encode(f.read()).decode()
+    st.markdown(
+        f"""
+        <style>
+        body {{
+            background-image: url("data:image/png;base64,{encoded}");
+            background-size: cover;
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+# Call the function with your image path
+set_bg_local("background.jpg")  # Replace with your actual file path
+
+# Your Streamlit app content
+st.title("Heart Disease Prediction")
+st.write("Welcome to the app!")
