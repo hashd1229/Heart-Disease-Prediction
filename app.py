@@ -8,18 +8,12 @@ import plotly.express as px
 from datetime import datetime
 import time
 
-# --------------------------------------------------
-# PAGE CONFIG
-# --------------------------------------------------
 st.set_page_config(
     page_title="Heart Disease Predictor",
     page_icon="❤️",
     layout="wide"
 )
 
-# --------------------------------------------------
-# BACKGROUND IMAGE (OPTIONAL)
-# --------------------------------------------------
 def set_local_bg_image(image_path: str):
     try:
         with open(image_path, "rb") as f:
@@ -124,29 +118,20 @@ def set_local_bg_image(image_path: str):
 
 set_local_bg_image("assets/background.jpg")
 
-# --------------------------------------------------
-# SESSION STATE INITIALIZATION
-# --------------------------------------------------
+
 if 'prediction_history' not in st.session_state:
     st.session_state.prediction_history = []
 
 if 'last_prediction' not in st.session_state:
     st.session_state.last_prediction = None
 
-# --------------------------------------------------
-# LOAD MODEL
-# --------------------------------------------------
 @st.cache_resource
 def load_model():
     return joblib.load("model.pkl")
 
 model = load_model()
 
-# --------------------------------------------------
-# DATASET STATISTICS (HARDCODED FOR ACCURACY)
-# --------------------------------------------------
-# These values are derived directly from the training dataset 
-# to ensure inputs are within valid ranges without loading the CSV.
+# Median values for input fields (for reference)
 medians = {
     "age": 55,
     "trestbps": 130,
@@ -163,9 +148,6 @@ medians = {
     "thal": 2
 }
 
-# --------------------------------------------------
-# ENHANCED FEATURES
-# --------------------------------------------------
 
 # 1. ANIMATED LOADING SEQUENCE
 def show_loading_sequence():
@@ -212,7 +194,7 @@ def get_health_tips(risk_level, data):
     
     return tips
 
-# 3. BMI CALCULATOR FUNCTIONS
+# BMI CALCULATOR FUNCTIONS
 def calculate_bmi(weight_kg, height_cm):
     """Calculate BMI in metric system"""
     height_m = height_cm / 100
@@ -308,9 +290,6 @@ def create_bmi_gauge(bmi_value):
     )
     return fig
 
-# --------------------------------------------------
-# HEADER WITH ENHANCED VISUALS
-# --------------------------------------------------
 col1, col2, col3 = st.columns([1, 2, 1])
 with col2:
     st.markdown("# ❤️ Heart Disease Prediction System")
@@ -322,9 +301,7 @@ with col2:
 
 st.markdown("---")
 
-# --------------------------------------------------
-# SIDEBAR ENHANCEMENTS WITH BMI CALCULATOR
-# --------------------------------------------------
+
 with st.sidebar:
     st.markdown("### ⚙️ Quick Settings")
     
@@ -447,9 +424,7 @@ with st.sidebar:
         st.metric("Total Assessments", total)
         st.metric("High Risk Cases", high_risk, f"{(high_risk/total*100):.1f}%")
 
-# --------------------------------------------------
-# INPUT FIELDS WITH ENHANCEMENTS
-# --------------------------------------------------
+
 st.markdown("## 📝 Patient Information")
 
 # Progress indicator
@@ -600,9 +575,6 @@ with st.expander("👤 Personal Information", expanded=True):
 
 st.markdown("---")
 
-# --------------------------------------------------
-# PREDICTION WITH ENHANCED FEATURES
-# --------------------------------------------------
 col1, col2, col3 = st.columns([1, 2, 1])
 with col2:
     predict_btn = st.button("🔮 Predict Heart Disease Risk", use_container_width=True)
@@ -674,8 +646,8 @@ if predict_btn:
             </div>
             """, unsafe_allow_html=True)
             
-            # Risk metrics in columns (REMOVED MIDDLE COLUMN FOR MAX HR)
-            col1, col2 = st.columns(2)  # Changed from 3 columns to 2
+           
+            col1, col2 = st.columns(2) 
             
             with col1:
                 st.markdown(f"""
@@ -686,7 +658,7 @@ if predict_btn:
                 </div>
                 """, unsafe_allow_html=True)
             
-            with col2:  # REMOVED THE MAX HR COLUMN
+            with col2:  
                 st.markdown(f"""
                 <div class='metric-card'>
                     <h3 style='color:#00cc96;'>Confidence</h3>
@@ -743,8 +715,8 @@ if predict_btn:
             </div>
             """, unsafe_allow_html=True)
             
-            # Success metrics (REMOVED MIDDLE COLUMN FOR MAX HR)
-            col1, col2 = st.columns(2)  # Changed from 3 columns to 2
+
+            col1, col2 = st.columns(2)  
             
             with col1:
                 st.markdown(f"""
@@ -755,7 +727,7 @@ if predict_btn:
                 </div>
                 """, unsafe_allow_html=True)
             
-            with col2:  # REMOVED THE MAX HR COLUMN
+            with col2:  
                 if show_animations:
                     st.balloons()
                 st.markdown("""
@@ -783,9 +755,7 @@ if predict_btn:
             - Manage stress effectively
             """)
 
-# --------------------------------------------------
-# ADDITIONAL FEATURES SECTION
-# --------------------------------------------------
+
 st.markdown("---")
 st.markdown("## 📊 Additional Tools")
 
@@ -885,10 +855,7 @@ with tab2:
         st.info("**Interpretation:** Higher bars indicate features contributing more to risk assessment.")
     else:
         st.info("Make a prediction to see detailed analysis here.")
-
-# --------------------------------------------------
-# FOOTER WITH ENHANCEMENTS
-# --------------------------------------------------
+        
 st.markdown("---")
 st.markdown(
     """
